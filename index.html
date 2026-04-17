@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Payslip Portal</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 350px; }
+        h2 { text-align: center; color: #333; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #payslip-display { margin-top: 20px; border-top: 2px solid #eee; display: none; padding-top: 10px; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .total { font-weight: bold; color: #d9534f; border-top: 1px solid #eee; padding-top: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+<h2>View Payslip</h2>
+    <input type="text" id="empId" placeholder="Enter Employee ID (e.g., 101)">
+    <button onclick="fetchPayslip()">Generate Payslip</button>
+
+    <div id="payslip-display">
+        <h3 id="empName">Employee Name</h3>
+        <div class="row"><span>Basic Salary:</span> <span id="basic">$0</span></div>
+        <div class="row"><span>HRA:</span> <span id="hra">$0</span></div>
+        <div class="row"><span>Deductions (Tax):</span> <span id="tax" style="color:red;">-$0</span></div>
+        <div class="row total"><span>Net Pay:</span> <span id="net">$0</span></div>
+    </div>
+</div>
+
+<script>
+    function fetchPayslip() {
+        const id = document.getElementById('empId').value;
+        const display = document.getElementById('payslip-display');
+        
+        // Mock data representing a database
+        const employees = {
+            "101": { name: "John Doe", basic: 5000, hra: 1200, tax: 500 },
+            "102": { name: "Jane Smith", basic: 6000, hra: 1500, tax: 700 }
+        };
+
+        if (employees[id]) {
+            const emp = employees[id];
+            document.getElementById('empName').innerText = emp.name;
+            document.getElementById('basic').innerText = "$" + emp.basic;
+            document.getElementById('hra').innerText = "$" + emp.hra;
+            document.getElementById('tax').innerText = "$" + emp.tax;
+            document.getElementById('net').innerText = "$" + (emp.basic + emp.hra - emp.tax);
+            display.style.display = 'block';
+        } else {
+            alert("Employee ID not found! Try 101 or 102.");
+            display.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
